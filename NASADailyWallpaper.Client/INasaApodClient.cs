@@ -4,6 +4,6 @@ namespace NASADailyWallpaper.Client
 {
     public interface INasaApodClient
     {
-        Task<string> GetLatestImage();
+        Task<ApodResponse> GetLatestImage();
     }
 }
