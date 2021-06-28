@@ -32,6 +32,11 @@ namespace NASADailyWallpaper.UI
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.trayContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.menuItemRefreshNow = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuItemSettings = new System.Windows.Forms.ToolStripMenuItem();
+            this.quitSeparator = new System.Windows.Forms.ToolStripSeparator();
+            this.menuItemQuit = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.linkLabelGitHub = new System.Windows.Forms.LinkLabel();
             this.buttonRefresh = new System.Windows.Forms.Button();
@@ -39,16 +44,51 @@ namespace NASADailyWallpaper.UI
             this.radioButton3 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.label1 = new System.Windows.Forms.Label();
+            this.trayContextMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // notifyIcon
             // 
+            this.notifyIcon.ContextMenuStrip = this.trayContextMenuStrip;
             this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
             this.notifyIcon.Text = "NASA Daily Wallpaper";
-            this.notifyIcon.Visible = true;
             this.notifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseDoubleClick);
+            // 
+            // trayContextMenuStrip
+            // 
+            this.trayContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuItemRefreshNow,
+            this.menuItemSettings,
+            this.quitSeparator,
+            this.menuItemQuit});
+            this.trayContextMenuStrip.Name = "trayContextMenuStrip";
+            this.trayContextMenuStrip.Size = new System.Drawing.Size(140, 76);
+            // 
+            // menuItemRefreshNow
+            // 
+            this.menuItemRefreshNow.Name = "menuItemRefreshNow";
+            this.menuItemRefreshNow.Size = new System.Drawing.Size(139, 22);
+            this.menuItemRefreshNow.Text = "Refresh now";
+            // 
+            // menuItemSettings
+            // 
+            this.menuItemSettings.Name = "menuItemSettings";
+            this.menuItemSettings.Size = new System.Drawing.Size(139, 22);
+            this.menuItemSettings.Text = "Settings";
+            // 
+            // quitSeparator
+            // 
+            this.quitSeparator.Name = "quitSeparator";
+            this.quitSeparator.Size = new System.Drawing.Size(136, 6);
+            // 
+            // menuItemQuit
+            // 
+            this.menuItemQuit.Name = "menuItemQuit";
+            this.menuItemQuit.Size = new System.Drawing.Size(139, 22);
+            this.menuItemQuit.Text = "Quit";
             // 
             // pictureBox1
             // 
@@ -77,7 +117,7 @@ namespace NASADailyWallpaper.UI
             // buttonRefresh
             // 
             this.buttonRefresh.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.buttonRefresh.Location = new System.Drawing.Point(12, 289);
+            this.buttonRefresh.Location = new System.Drawing.Point(12, 336);
             this.buttonRefresh.Name = "buttonRefresh";
             this.buttonRefresh.Size = new System.Drawing.Size(325, 51);
             this.buttonRefresh.TabIndex = 9;
@@ -90,7 +130,7 @@ namespace NASADailyWallpaper.UI
             this.groupBox1.Controls.Add(this.radioButton3);
             this.groupBox1.Controls.Add(this.radioButton2);
             this.groupBox1.Controls.Add(this.radioButton1);
-            this.groupBox1.Location = new System.Drawing.Point(12, 153);
+            this.groupBox1.Location = new System.Drawing.Point(12, 200);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(325, 130);
             this.groupBox1.TabIndex = 10;
@@ -129,22 +169,32 @@ namespace NASADailyWallpaper.UI
             this.radioButton1.Text = "Daily";
             this.radioButton1.UseVisualStyleBackColor = true;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label1.Location = new System.Drawing.Point(35, 155);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(285, 25);
+            this.label1.TabIndex = 11;
+            this.label1.Text = "NASA Daily Wallpaper from APOD";
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(349, 433);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.buttonRefresh);
             this.Controls.Add(this.linkLabelGitHub);
             this.Controls.Add(this.pictureBox1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MinimizeBox = false;
             this.Name = "FormMain";
-            this.ShowInTaskbar = false;
-            this.Text = "NASA Daily Wallpaper";
+            this.Text = "Settings";
+            this.trayContextMenuStrip.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -163,6 +213,13 @@ namespace NASADailyWallpaper.UI
         private System.Windows.Forms.RadioButton radioButton3;
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.ContextMenuStrip trayContextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem menuItemQuit;
+        private System.Windows.Forms.ToolStripMenuItem menuItemRefreshNow;
+        private System.Windows.Forms.ToolStripMenuItem menuItemSettings;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripSeparator quitSeparator;
+        private System.Windows.Forms.Label label1;
     }
 }
 

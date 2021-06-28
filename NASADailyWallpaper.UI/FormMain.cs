@@ -3,6 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using Microsoft.Win32;
@@ -23,6 +24,42 @@ namespace NASADailyWallpaper.UI
         public FormMain()
         {
             InitializeComponent();
+
+            Resize += FormMain_Resize;
+            trayContextMenuStrip.ItemClicked += trayContextMenuStrip_ItemClicked;
+        }
+
+        private async void trayContextMenuStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            ToolStripItem item = e.ClickedItem;
+
+            switch (item.Text.ToLower())
+            {
+                case "refresh now":
+                    await RefreshWallpaper();
+                    break;
+
+                case "settings":
+                    Show();
+                    WindowState = FormWindowState.Normal;
+                    notifyIcon.Visible = false;
+                    break;
+
+                case "quit":
+                    Application.Exit();
+                    break;
+
+                default: break;
+            }
+        }
+
+        private void FormMain_Resize(object sender, EventArgs e)
+        {
+            if (WindowState is FormWindowState.Minimized)
+            {
+                Hide();
+                notifyIcon.Visible = true;
+            }
         }
 
         private async void buttonRefresh_Click(object sender, EventArgs e)
@@ -30,6 +67,14 @@ namespace NASADailyWallpaper.UI
             buttonRefresh.Enabled = false;
             buttonRefresh.Text = "Loading...";
 
+            await RefreshWallpaper();
+
+            buttonRefresh.Enabled = true;
+            buttonRefresh.Text = "Refresh now";
+        }
+
+        private static async Task RefreshWallpaper()
+        {
             INasaApodClient client = new NasaApodClient();
 
             ApodResponse apodResponse = await client.GetLatestImage();
@@ -40,9 +85,6 @@ namespace NASADailyWallpaper.UI
             }
 
             SetWallpaper(apodResponse.HDUrl);
-
-            buttonRefresh.Enabled = true;
-            buttonRefresh.Text = "Refresh now";
         }
 
         private void linkLabelGitHub_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -58,7 +100,7 @@ namespace NASADailyWallpaper.UI
         {
         }
 
-        private void SetWallpaper(string uri)
+        private static void SetWallpaper(string uri)
         {
             Stream stream = new WebClient().OpenRead(uri);
             Image img = Image.FromStream(stream);
